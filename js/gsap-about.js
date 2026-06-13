@@ -22,9 +22,8 @@
     }
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isMobile = window.matchMedia('(max-width: 767px)').matches;
 
-    if (prefersReducedMotion || isMobile) {
+    if (prefersReducedMotion) {
       finalizeAboutSection(section);
       return;
     }
@@ -136,7 +135,19 @@
           section.classList.add('about--animate-ready');
         }
       });
+    } else {
+      section.classList.add('about--animate-ready');
     }
+
+    window.addEventListener('load', function () {
+      ScrollTrigger.refresh();
+    });
+
+    window.addEventListener('orientationchange', function () {
+      setTimeout(function () {
+        ScrollTrigger.refresh();
+      }, 150);
+    });
   }
 
   if (document.readyState === 'loading') {

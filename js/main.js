@@ -262,21 +262,35 @@
   }
 
   function initHeroParallax() {
-    if (prefersReducedMotion || window.innerWidth < 768) return;
+    if (prefersReducedMotion) return;
 
     const hero = document.querySelector('.hero');
     if (!hero) return;
 
-    hero.addEventListener('mousemove', function (e) {
+    function moveAurora(clientX, clientY) {
       const rect = hero.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      const x = (clientX - rect.left) / rect.width - 0.5;
+      const y = (clientY - rect.top) / rect.height - 0.5;
 
       auroraBlobs.forEach(function (blob, i) {
         const factor = (i + 1) * 14;
         blob.style.transform = 'translate(' + (x * factor) + 'px, ' + (y * factor) + 'px)';
       });
+    }
+
+    hero.addEventListener('mousemove', function (e) {
+      moveAurora(e.clientX, e.clientY);
     });
+
+    hero.addEventListener(
+      'touchmove',
+      function (e) {
+        if (e.touches.length) {
+          moveAurora(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      },
+      { passive: true }
+    );
   }
 
   function initCounterAnimation() {

@@ -120,6 +120,20 @@
       gridSelector: '.services-grid',
       readyClass: 'services--ready'
     });
+
+    window.addEventListener('load', function () {
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+      }
+    });
+
+    window.addEventListener('orientationchange', function () {
+      setTimeout(function () {
+        if (typeof ScrollTrigger !== 'undefined') {
+          ScrollTrigger.refresh();
+        }
+      }, 150);
+    });
   }
 
   if (document.readyState === 'loading') {
